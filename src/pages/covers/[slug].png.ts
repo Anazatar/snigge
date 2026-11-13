@@ -1,0 +1,26 @@
+import type { APIRoute, GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import { getTopic } from "../../data/topics";
+import { renderCover } from "../../lib/social-images";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const guides = await getCollection("guides");
+  const guidePaths = guides.map((g) => {
+    const t = getTopic(g.data.topic);
+    return {
+      params: { slug: g.id },
+      props: { title: g.data.title, topicName: t.name, tone: t.color, icon: t.icon, readTime: g.data.readTime },
+    };
+  });
+  // Default cover for the homepage and other pages.
+  const site = {
+    params: { slug: "site" },
+    props: { title: "Technology, explained kindly.", topicName: "Friendly tech help", tone: "var(--sun)", icon: "shield" },
+  };
+  return [...guidePaths, site];
+};
+
+export const GET: APIRoute = async ({ props }) => {
+  const png = await renderCover(props as Parameters<typeof renderCover>[0]);
+  return new Response(new Uint8Array(png), { headers: { "Content-Type": "image/png" } });
+};

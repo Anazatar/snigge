@@ -1,0 +1,165 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import GuideCard from "../../components/GuideCard.astro";
+import AdSlot from "../../components/AdSlot.astro";
+import { IN_ARTICLE } from "../../config/ads";
+import { getTopic } from "../../data/topics";
+
+export async function getStaticPaths() {
+  const guides = await getCollection("guides");
+  return guides.map((guide) => ({ params: { slug: guide.id }, props: { guide } }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+const topic = getTopic(guide.data.topic);
+
+const all = await getCollection("guides");
+const related = all
+  .filter((g) => g.id !== guide.id)
+  .sort((a, b) => Number(b.data.topic === guide.data.topic) - Number(a.data.topic === guide.data.topic))
+  .slice(0, 3);
+
+const pageUrl = new URL(`/guides/${guide.id}`, Astro.site).href;
+const pinUrl = new URL(`/pins/${guide.id}.png`, Astro.site).href;
+const pinterestShare = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(pageUrl)}&media=${encodeURIComponent(pinUrl)}&description=${encodeURIComponent(guide.data.title)}`;
+const facebookShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+const date = guide.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+---
+<Base title={`${guide.data.title} | Tech for Grownups`} description={guide.data.description} rails="left" image={`/covers/${guide.id}.png`}>
+  <article>
+    <header class="article-head">
+      <div class="container narrow">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a> <span>›</span>
+          <a href={`/topics/${topic.slug}`}>{topic.name}</a>
+        </nav>
+        <a href={`/topics/${topic.slug}`} class="chip" style={`background:${topic.color}`}>{topic.name}</a>
+        <h1>{guide.data.title}</h1>
+        <p class="lead">{guide.data.description}</p>
+        <p class="meta">
+          <span>⏱ {guide.data.readTime} read</span>
+          <span>🎯 {guide.data.level}</span>
+          <span>📅 Updated {date}</span>
+        </p>
+        <div class="share">
+          <span>Share this guide:</span>
+          <a href={pinterestShare} target="_blank" rel="noopener" class="share-btn pin">Save to Pinterest</a>
+          <a href={facebookShare} target="_blank" rel="noopener" class="share-btn fb">Share on Facebook</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container article-layout">
+      <div class="prose" id="article-body">
+        <Content />
+      </div>
+      <aside class="article-aside" id="article-aside" aria-label="Advertisement"></aside>
+    </div>
+    <script is:inline define:vars={{ every: IN_ARTICLE.everyNthHeading, max: IN_ARTICLE.max, afterIntro: IN_ARTICLE.afterIntro }}>
+      (function () {
+        var body = document.getElementById("article-body");
+        var headings = body.querySelectorAll(":scope > h2");
+        var placed = 0;
+        // Ad right after the intro paragraph.
+        var firstP = body.querySelector(":scope > p");
+        if (afterIntro && firstP && placed < max) {
+          window.tfgInsertAd("inArticle", "auto", body, firstP.nextSibling);
+          placed++;
+        }
+        // One ad before every Nth section heading (from the 2nd on), so there is always content between ads.
+        for (var i = 1; i < headings.length && placed < max; i++) {
+          if ((i - 1) % every === 0) {
+            window.tfgInsertAd("inArticle", "auto", body, headings[i]);
+            placed++;
+          }
+        }
+        // Sticky sidebar ad only where there is room for it (large screens).
+        if (window.matchMedia("(min-width: 1200px)").matches) {
+          window.tfgInsertAd("sidebar", "vertical", document.getElementById("article-aside"));
+        }
+      })();
+    </script>
+  </article>
+
+  <div class="container ad-section">
+    <AdSlot name="articleEnd" />
+  </div>
+
+  <section class="related">
+    <div class="container">
+      <h2>Keep learning</h2>
+      <div class="related-grid">
+        {related.map((g) => <GuideCard guide={g} />)}
+      </div>
+      <AdSlot name="section" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .narrow { max-width: 760px; }
+  .article-head { padding: 56px 0 32px; }
+  .crumbs { font-size: 1rem; color: var(--text-soft); margin-bottom: 20px; }
+  .crumbs a { color: var(--text-soft); }
+  .crumbs span { margin: 0 6px; }
+  .chip {
+    display: inline-block; padding: 6px 16px; border-radius: 999px;
+    font-weight: 700; font-size: 0.95rem; color: var(--text); text-decoration: none;
+    margin-bottom: 18px;
+  }
+  .article-head h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); }
+  .lead { font-size: 1.3rem; color: var(--text-soft); }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 8px 24px;
+    font-size: 1rem; color: var(--text-soft);
+    padding-top: 20px; border-top: 1px solid var(--border); margin: 0;
+  }
+
+  .share { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin-top: 20px; font-size: 1rem; color: var(--text-soft); }
+  .share-btn {
+    padding: 8px 16px; border-radius: 999px; font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; color: #fff;
+  }
+  .share-btn.pin { background: #c8232c; }
+  .share-btn.fb { background: #1877f2; }
+
+  .article-layout { max-width: 760px; }
+  .article-aside { display: none; }
+  @media (min-width: 1200px) {
+    .article-layout {
+      max-width: 1160px;
+      display: grid;
+      grid-template-columns: minmax(0, 760px) 300px;
+      justify-content: space-between;
+      gap: 64px;
+    }
+    .article-head .narrow { max-width: 1160px; padding-right: calc(24px + 364px); }
+    .article-aside { display: block; }
+    .article-aside :global(.ad) { position: sticky; top: 100px; }
+  }
+
+  .prose { padding-bottom: 32px; font-size: 1.25rem; line-height: 1.75; min-width: 0; }
+  .prose :global(h2) {
+    font-size: 1.85rem; margin: 2.2em 0 0.6em;
+    padding-top: 0.4em;
+  }
+  .prose :global(h3) { margin-top: 1.6em; }
+  .prose :global(ol), .prose :global(ul) { padding-left: 1.4em; margin: 0 0 1.2em; }
+  .prose :global(li) { margin-bottom: 0.5em; }
+  .prose :global(li::marker) { color: var(--accent-ink); font-weight: 700; }
+  .prose :global(strong) { color: var(--text); }
+  .prose :global(blockquote) {
+    margin: 1.6em 0; padding: 20px 24px;
+    background: var(--tip-bg); border-left: 5px solid var(--accent);
+    border-radius: 0 16px 16px 0; color: var(--tip-text);
+  }
+  .prose :global(blockquote p) { margin: 0; }
+  .prose :global(blockquote strong) { color: var(--tip-text); }
+  .prose :global(a) { font-weight: 700; text-underline-offset: 3px; }
+
+  .related { background: var(--bg-alt); padding: 72px 0; }
+  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 900px) { .related-grid { grid-template-columns: 1fr; } }
+</style>

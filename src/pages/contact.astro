@@ -1,0 +1,62 @@
+---
+import Page from "../layouts/Page.astro";
+import { SITE } from "../config/site";
+
+const reasons = [
+  { icon: "💡", title: "Suggest a guide", text: "Stuck on something? Tell us and we may write a guide about it." },
+  { icon: "🛠️", title: "Report a mistake", text: "Did a step not match your screen? Let us know so we can fix it." },
+  { icon: "🤝", title: "Partnerships", text: "For advertising and business inquiries, please include details." },
+];
+---
+<Page
+  title="Contact Us"
+  eyebrow="Get in touch"
+  description="Questions, guide ideas or corrections? We read every message and reply as soon as we can."
+>
+  <div class="contact-card">
+    <p class="label">Email us at</p>
+    <a class="email" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    <p class="small">We usually reply within 2 to 3 business days.</p>
+  </div>
+
+  <h2>How we can help</h2>
+  <div class="reasons">
+    {reasons.map((r) => (
+      <div class="reason">
+        <span class="icon" aria-hidden="true">{r.icon}</span>
+        <h3>{r.title}</h3>
+        <p>{r.text}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2>Please note</h2>
+  <ul>
+    <li>We can't offer one-on-one tech support or remote access to your devices, but your questions help us decide which guides to write next.</li>
+    <li><strong>We will never ask for your passwords, codes or bank details.</strong> If someone contacts you claiming to be us and asks for these, it's a scam.</li>
+    <li>For help with a specific account (Apple, Google, Microsoft, your bank), please contact that company directly through its official website.</li>
+  </ul>
+</Page>
+
+<style>
+  .contact-card {
+    background: var(--band); color: var(--band-text); border-radius: 24px;
+    padding: 40px; text-align: center; margin-bottom: 16px;
+  }
+  .label { margin: 0 0 8px; opacity: 0.85; }
+  .email {
+    display: inline-block; font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4vw, 2rem); color: var(--band-text) !important;
+    word-break: break-all;
+  }
+  .small { margin: 12px 0 0; font-size: 1rem; opacity: 0.85; }
+  .reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .reason {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 18px; padding: 24px;
+  }
+  .reason .icon { font-size: 1.8rem; }
+  .reason h3 { margin: 10px 0 6px; font-size: 1.2rem; }
+  .reason p { margin: 0; font-size: 1.05rem; color: var(--text-soft); line-height: 1.55; }
+  @media (max-width: 720px) { .reasons { grid-template-columns: 1fr; } }
+</style>

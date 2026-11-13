@@ -1,0 +1,101 @@
+---
+import Page from "../layouts/Page.astro";
+import { SITE } from "../config/site";
+---
+<Page
+  title="Privacy Policy"
+  eyebrow="Your privacy"
+  description="We keep this simple: what we collect, why, and the choices you have."
+  updated="November 12, 2026"
+>
+  <p>
+    This Privacy Policy explains how {SITE.name} ("we", "us", "our") collects and uses information when you visit
+    <a href={SITE.url}>{SITE.url.replace("https://", "")}</a> (the "Site"). By using the Site, you agree to this policy.
+  </p>
+
+  <h2>Information we collect</h2>
+  <h3>Information you give us</h3>
+  <ul>
+    <li><strong>Email address</strong>, if you sign up for our newsletter or download a cheat sheet.</li>
+    <li><strong>Anything you include in a message</strong> when you email us.</li>
+  </ul>
+  <h3>Information collected automatically</h3>
+  <p>When you visit the Site, some information is collected automatically by us and by our partners, such as:</p>
+  <ul>
+    <li>Your browser type, device type and operating system</li>
+    <li>Your approximate location (country or city), based on your IP address</li>
+    <li>Pages you visit, how long you stay and how you arrived at the Site</li>
+  </ul>
+  <p>We do not knowingly collect sensitive information, and we never ask for passwords, codes or financial details.</p>
+
+  <h2>How we use your information</h2>
+  <ul>
+    <li>To run, maintain and improve the Site and our guides</li>
+    <li>To send our newsletter, if you asked for it (you can unsubscribe at any time)</li>
+    <li>To reply to your messages</li>
+    <li>To show advertising that keeps the Site free</li>
+    <li>To protect the Site against fraud and abuse</li>
+  </ul>
+  <p>We do not sell your email address or share it with anyone for their own marketing.</p>
+
+  <h2>Cookies</h2>
+  <p>
+    Cookies are small text files stored on your device. We and our partners use cookies and similar technologies to
+    remember your preferences, understand how the Site is used and show advertising. You can block or delete cookies
+    in your browser settings. Some features may not work properly without them.
+  </p>
+
+  <h2>Advertising and Google AdSense</h2>
+  <p>We use Google AdSense to show ads on the Site.</p>
+  <ul>
+    <li>Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this website or other websites.</li>
+    <li>Google's use of advertising cookies enables it and its partners to serve ads to you based on your visits to this Site and/or other sites on the internet.</li>
+    <li>You may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" rel="noopener" target="_blank">Google Ads Settings</a>.</li>
+    <li>You can also opt out of some third-party vendors' use of cookies for personalized advertising at <a href="https://www.aboutads.info/choices" rel="noopener" target="_blank">aboutads.info</a>.</li>
+  </ul>
+  <p>
+    Learn more about how Google uses information from sites that use its services at
+    <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">How Google uses information from sites or apps that use its services</a>.
+  </p>
+
+  <h2>Other third-party services</h2>
+  <ul>
+    <li><strong>Hosting:</strong> the Site is hosted by a third-party provider, which may process technical data (such as IP addresses) to deliver pages securely.</li>
+    <li><strong>Fonts:</strong> we use Google Fonts, which may receive your IP address when loading fonts.</li>
+    <li><strong>Affiliate links:</strong> some links may be affiliate links. If you click one, the retailer may use cookies to track the referral. See our <a href="/disclaimer">Disclaimer</a>.</li>
+  </ul>
+
+  <h2>Your rights and choices</h2>
+  <p>Depending on where you live, you may have the right to:</p>
+  <ul>
+    <li>Access the personal information we hold about you</li>
+    <li>Ask us to correct or delete it</li>
+    <li>Object to or limit certain uses, including personalized advertising</li>
+    <li>Withdraw consent at any time, where we rely on consent</li>
+  </ul>
+  <p>
+    <strong>Visitors in the European Economic Area, the UK and Switzerland:</strong> we ask for your consent before
+    using cookies for personalized ads, through a consent message shown when you first visit.
+  </p>
+  <p>
+    <strong>California residents:</strong> under the CCPA/CPRA, you have the right to know what personal information
+    is collected, to request its deletion, and to opt out of its "sale" or "sharing" for targeted advertising.
+    We do not sell personal information for money.
+  </p>
+  <p>To make a request, email us at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+  <h2>Children's privacy</h2>
+  <p>The Site is intended for adults. We do not knowingly collect information from children under 13.</p>
+
+  <h2>Data retention and security</h2>
+  <p>
+    We keep personal information only as long as needed for the purposes described here, and we use reasonable
+    measures to protect it. No method of transmission over the internet is 100% secure.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>We may update this policy from time to time. The date at the top of this page shows when it was last changed.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</Page>

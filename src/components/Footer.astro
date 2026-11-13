@@ -1,0 +1,79 @@
+---
+import { topics } from "../data/topics";
+const year = new Date().getFullYear();
+const columns = [
+  {
+    title: "Topics",
+    links: topics.map((t) => ({ label: t.name, href: `/topics/${t.slug}` })),
+  },
+  {
+    title: "Resources",
+    links: ["Free Cheat Sheets", "Beginner Guides", "Tech Glossary", "Newsletter"].map((label) => ({ label, href: "#" })),
+  },
+  {
+    title: "About",
+    links: [
+      { label: "About Us", href: "/about" },
+      { label: "Contact", href: "/contact" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Disclaimer", href: "/disclaimer" },
+    ],
+  },
+];
+---
+<footer class="site-footer">
+  <div class="container grid">
+    <div class="brand">
+      <p class="name">Tech for <strong>Grownups</strong></p>
+      <p class="tag">Patient, plain-English tech help. One clear step at a time.</p>
+    </div>
+    {columns.map((col) => (
+      <div>
+        <p class="col-title">{col.title}</p>
+        <ul>
+          {col.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+    ))}
+  </div>
+  <div class="container bottom">
+    <p>© {year} Tech for Grownups. All rights reserved.</p>
+    <p>Not affiliated with Apple, Google, Microsoft, Samsung or any Linux distribution.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--bg-alt);
+    border-top: 1px solid var(--border);
+    padding: 72px 0 32px;
+    font-size: 1.05rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .name { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 8px; }
+  .tag { color: var(--text-soft); max-width: 300px; }
+  .col-title { font-weight: 700; margin-bottom: 12px; }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  a { color: var(--text-soft); text-decoration: none; }
+  a:hover { color: var(--accent-ink); }
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-soft);
+    font-size: 0.95rem;
+  }
+  .bottom p { margin: 0; }
+  @media (max-width: 800px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+    .brand { grid-column: 1 / -1; }
+  }
+</style>

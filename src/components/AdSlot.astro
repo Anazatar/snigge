@@ -1,0 +1,34 @@
+---
+import { ADSENSE_CLIENT, AD_SLOTS, ADS_ENABLED, SHOW_AD_PREVIEW, type AdSlotName } from "../config/ads";
+
+interface Props {
+  name: AdSlotName;
+  /** "auto" fits any width; "vertical" is for the sticky sidebar. */
+  format?: "auto" | "vertical";
+  class?: string;
+}
+
+const { name, format = "auto", class: className = "" } = Astro.props;
+const slot = AD_SLOTS[name];
+---
+{ADS_ENABLED && (
+  <div class={`ad ad-${name} ${className}`}>
+    <span class="ad-label">Advertisement</span>
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={ADSENSE_CLIENT}
+      data-ad-slot={slot || undefined}
+      data-ad-format={format === "vertical" ? "vertical" : "auto"}
+      data-full-width-responsive={format === "auto" ? "true" : undefined}
+    ></ins>
+    <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+)}
+
+{SHOW_AD_PREVIEW && (
+  <div class={`ad ad-${name} ad-preview ${className}`} aria-hidden="true">
+    <span class="ad-label">Ad preview · {name}</span>
+    <div class="ad-box">Ad space</div>
+  </div>
+)}

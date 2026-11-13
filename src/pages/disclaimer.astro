@@ -1,0 +1,52 @@
+---
+import Page from "../layouts/Page.astro";
+import { SITE } from "../config/site";
+---
+<Page
+  title="Disclaimer"
+  eyebrow="The fine print"
+  description="How we work, how the Site is funded, and the limits of the information we provide."
+  updated="November 12, 2026"
+>
+  <h2>General information only</h2>
+  <p>
+    The guides on {SITE.name} are for general educational purposes. We work hard to keep them accurate and up to
+    date, but devices, apps and settings change often. We can't guarantee that every step will match your device
+    exactly. Follow our guides at your own discretion, and back up important information before making changes.
+  </p>
+
+  <h2>Not affiliated with any brand</h2>
+  <p>
+    {SITE.name} is an independent website. We are not affiliated with, endorsed by or sponsored by Apple, Google,
+    Microsoft, Samsung, Meta, WhatsApp, Zoom, any Linux distribution or any other company mentioned on the Site.
+    All product names, logos and trademarks belong to their respective owners.
+  </p>
+
+  <h2>Advertising</h2>
+  <p>
+    The Site shows ads through Google AdSense and other ad partners. Ads are clearly labeled
+    "Advertisement." We don't choose the specific ads you see and don't endorse the products advertised.
+  </p>
+
+  <h2>Affiliate links</h2>
+  <p>
+    Some links on the Site may be affiliate links. If you click one and make a purchase, we may earn a small
+    commission <strong>at no extra cost to you</strong>. As an Amazon Associate, we earn from qualifying purchases.
+    We only recommend products we believe are genuinely helpful, and commissions never influence our advice.
+  </p>
+
+  <h2>Security and scam information</h2>
+  <p>
+    Our scam safety guides help you recognize common warning signs, but no guide can cover every scam. If you
+    think you've been scammed, contact your bank and the relevant authorities right away. In the US, you can
+    report fraud at <a href="https://reportfraud.ftc.gov" rel="noopener" target="_blank">ReportFraud.ftc.gov</a>.
+  </p>
+
+  <h2>External links</h2>
+  <p>
+    We sometimes link to other websites. We aren't responsible for their content or privacy practices.
+  </p>
+
+  <h2>Questions</h2>
+  <p>Email us at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</Page>

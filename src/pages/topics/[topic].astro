@@ -1,0 +1,281 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import GuideCard from "../../components/GuideCard.astro";
+import AdSlot from "../../components/AdSlot.astro";
+import { topics, icons } from "../../data/topics";
+import { topicPages } from "../../data/topicPages";
+
+export function getStaticPaths() {
+  return topics.map((t) => ({ params: { topic: t.slug }, props: { topic: t } }));
+}
+
+const { topic } = Astro.props;
+const page = topicPages[topic.slug];
+const guides = (await getCollection("guides", (g) => g.data.topic === topic.slug)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const [featured, ...rest] = guides;
+const otherTopics = topics.filter((t) => t.slug !== topic.slug);
+---
+<Base title={`${topic.name} Help & Guides | Tech for Grownups`} description={page.intro[0]}>
+  <!-- HERO -->
+  <section class="t-hero" style={`--tone:${topic.color}`}>
+    <div class="container hero-grid">
+      <div>
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a> <span>›</span> <a href="/#topics">Topics</a> <span>›</span> {topic.name}
+        </nav>
+        <div class="title-row">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[topic.icon]} />
+          </span>
+          <span class="eyebrow-dark">{topic.name} guides</span>
+        </div>
+        <h1>{page.headline}</h1>
+        {page.intro.map((p) => <p class="intro">{p}</p>)}
+        <div class="stats">
+          <span><b>{guides.length}</b> {guides.length === 1 ? "guide" : "guides"}</span>
+          <span><b>100%</b> free</span>
+          <span><b>Plain</b> English</span>
+        </div>
+      </div>
+
+      {featured && (
+        <a href={`/guides/${featured.id}`} class="start-card">
+          <span class="start-label">★ Start here</span>
+          <h2>{featured.data.title}</h2>
+          <p>{featured.data.description}</p>
+          <span class="start-meta">{featured.data.readTime} read · {featured.data.level}</span>
+          <span class="start-btn">Read the guide →</span>
+        </a>
+      )}
+    </div>
+  </section>
+
+  <div class="container ad-section"><AdSlot name="section" /></div>
+
+  <!-- WHAT YOU'LL LEARN -->
+  <section class="learn">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">What you'll learn</span>
+        <h2>Everything you need, nothing you don't</h2>
+      </div>
+      <div class="learn-grid">
+        {page.learn.map((l, i) => (
+          <div class="learn-card">
+            <span class="learn-num">{String(i + 1).padStart(2, "0")}</span>
+            <h3>{l.title}</h3>
+            <p>{l.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container ad-section"><AdSlot name="section" /></div>
+
+  <!-- ALL GUIDES -->
+  <section class="all-guides">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">All {topic.name} guides</span>
+        <h2>Step-by-step help</h2>
+      </div>
+      {rest.length > 0 ? (
+        <div class="grid">{rest.map((g) => <GuideCard guide={g} />)}</div>
+      ) : (
+        <div class="coming">
+          <p><b>More {topic.name} guides are on the way.</b> Sign up below and we'll let you know when new ones are published.</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <div class="container ad-section"><AdSlot name="section" /></div>
+
+  <!-- QUICK TIPS + FAQ -->
+  <section class="tips-faq">
+    <div class="container tf-grid">
+      <div class="tips">
+        <span class="eyebrow">Quick tips</span>
+        <h2>Little tricks that make a big difference</h2>
+        <ul>
+          {page.tips.map((t) => (
+            <li>
+              <span class="check" aria-hidden="true">✓</span>
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <span class="eyebrow">Common questions</span>
+        <h2>{topic.name} FAQ</h2>
+        <div class="faq-list">
+          {page.faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container ad-section"><AdSlot name="section" /></div>
+
+  <!-- OTHER TOPICS -->
+  <section class="others">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Explore more</span>
+        <h2>Other topics you might like</h2>
+      </div>
+      <div class="chips">
+        {otherTopics.map((t) => (
+          <a href={`/topics/${t.slug}`} class="chip" style={`--tone:${t.color}`}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[t.icon]} />
+            {t.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container cta-card">
+      <div>
+        <h2>Get one {topic.name} tip every week</h2>
+        <p>Short, friendly and easy to follow. Free cheat sheets included. Unsubscribe anytime.</p>
+      </div>
+      <a href="/#newsletter" class="btn btn-primary">Sign Me Up</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* HERO */
+  .t-hero {
+    background:
+      radial-gradient(circle at 85% 20%, var(--glass), transparent 45%),
+      var(--tone);
+    color: var(--on-tone);
+    padding: 56px 0 80px;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px; align-items: center; }
+  .crumbs { font-size: 1rem; margin-bottom: 28px; }
+  .crumbs a { color: var(--on-tone); }
+  .crumbs span { margin: 0 6px; opacity: 0.6; }
+  .title-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .icon {
+    width: 60px; height: 60px; border-radius: 16px; background: var(--badge); color: var(--primary);
+    display: grid; place-items: center; box-shadow: 0 6px 18px rgb(28 36 51 / 0.1);
+  }
+  .eyebrow-dark {
+    font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.95rem;
+  }
+  .t-hero h1 { font-size: clamp(2.3rem, 5vw, 3.6rem); }
+  .intro { font-size: 1.25rem; max-width: 640px; color: var(--on-tone-soft); }
+  .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .stats span {
+    background: var(--glass); padding: 10px 18px; border-radius: 999px; font-size: 1rem;
+  }
+
+  .start-card {
+    display: flex; flex-direction: column; gap: 6px;
+    background: var(--surface); color: var(--text); text-decoration: none; border: 1px solid var(--border);
+    border-radius: 24px; padding: 32px;
+    box-shadow: 0 24px 48px rgb(28 36 51 / 0.14);
+    transform: rotate(1.5deg);
+    transition: transform 0.2s ease;
+  }
+  .start-card:hover { transform: rotate(0) translateY(-4px); }
+  .start-label { color: var(--accent-ink); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .start-card h2 { font-size: 1.6rem; margin: 6px 0; }
+  .start-card p { color: var(--text-soft); font-size: 1.05rem; margin: 0 0 8px; }
+  .start-meta { color: var(--text-soft); font-size: 0.95rem; }
+  .start-btn {
+    margin-top: 16px; align-self: flex-start;
+    background: var(--primary); color: var(--on-primary); padding: 12px 22px; border-radius: 999px; font-weight: 700;
+  }
+
+  /* LEARN */
+  .learn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .learn-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px;
+  }
+  .learn-num { display: block; font-family: var(--font-display); font-size: 2rem; color: var(--accent-ink); margin-bottom: 10px; }
+  .learn-card h3 { font-size: 1.25rem; }
+  .learn-card p { color: var(--text-soft); margin: 0; font-size: 1.05rem; }
+
+  /* GUIDES */
+  .all-guides { background: var(--bg-alt); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .coming {
+    background: var(--surface); border: 2px dashed var(--border);
+    border-radius: var(--radius); padding: 32px; font-size: 1.15rem; color: var(--text-soft);
+  }
+  .coming p { margin: 0; }
+
+  /* TIPS + FAQ */
+  .tf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .tips {
+    background: var(--band); color: var(--band-text); border-radius: 28px; padding: 44px;
+  }
+  .tips .eyebrow { color: var(--accent-ink); }
+  .tips h2 { font-size: 2rem; }
+  .tips ul { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 18px; }
+  .tips li { display: flex; gap: 14px; font-size: 1.15rem; }
+  .check {
+    flex: none; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 0.95rem; color: #2b3040;
+  }
+  .faq-list { display: grid; gap: 14px; margin-top: 24px; }
+  details { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; }
+  summary {
+    cursor: pointer; font-weight: 700; font-size: 1.15rem; list-style: none;
+    display: flex; justify-content: space-between; gap: 16px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 1.5rem; line-height: 1; color: var(--accent-ink); }
+  details[open] summary::after { content: "–"; }
+  details p { margin: 12px 0 0; color: var(--text-soft); }
+
+  /* OTHER TOPICS */
+  .others { padding-top: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 14px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 22px; border-radius: 999px; background: var(--tone);
+    color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.05rem;
+    transition: transform 0.15s ease;
+  }
+  .chip:hover { transform: translateY(-2px); }
+
+  /* CTA */
+  .cta { padding-top: 0; }
+  .cta-card {
+    display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap;
+    background: var(--sun); color: var(--on-tone); border-radius: 28px; padding: 48px 56px;
+  }
+  .cta-card h2 { font-size: 2rem; margin-bottom: 8px; }
+  .cta-card p { margin: 0; color: var(--on-tone-soft); font-size: 1.15rem; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1000px) {
+    .hero-grid, .tf-grid { grid-template-columns: 1fr; }
+    .learn-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .start-card { transform: none; }
+  }
+  @media (max-width: 640px) {
+    .learn-grid, .grid { grid-template-columns: 1fr; }
+    .tips { padding: 32px 24px; }
+    .cta-card { padding: 36px 24px; }
+  }
+</style>

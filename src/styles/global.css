@@ -1,0 +1,255 @@
+:root {
+  color-scheme: light;
+  --bg: #fdfbf8;
+  --bg-alt: #f6f2ec;
+  --surface: #ffffff;
+  --text: #2b3040;
+  --text-soft: #5f6678;
+  --primary: #5868cc;
+  --primary-hover: #4a59b8;
+  --on-primary: #ffffff;
+  --accent: #f2a08d;
+  --accent-ink: #a54a36;
+  --accent-soft: #fde6de;
+  --mint: #dcf3e8;
+  --sky: #e0eafc;
+  --sun: #fff2cc;
+  --lilac: #ece6fc;
+  --on-tone: #2b3040;
+  --on-tone-soft: #4d5466;
+  --band: #e9e5fb;
+  --band-text: #2b3040;
+  --band-card: rgb(255 255 255 / 0.65);
+  --band-border: rgb(43 48 64 / 0.08);
+  --device: #2b3040;
+  --screen: #fdfbf8;
+  --screen-row: #ffffff;
+  --tip-bg: #fff4d6;
+  --tip-text: #2b3040;
+  --glass: rgb(255 255 255 / 0.6);
+  --badge: #ffffff;
+  --border: #ece6dc;
+  --shadow: 0 1px 2px rgb(43 48 64 / 0.04), 0 10px 28px rgb(98 116 214 / 0.08);
+  --radius: 20px;
+  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+}
+
+/* Dark mode: follows the system unless the visitor picked light, or picked dark with the toggle. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #161925;
+    --bg-alt: #1b1f2d;
+    --surface: #222737;
+    --text: #eceef5;
+    --text-soft: #a9b0c3;
+    --primary: #aab7f7;
+    --primary-hover: #c0caf9;
+    --on-primary: #161925;
+    --accent: #f5b4a4;
+    --accent-ink: #f5b4a4;
+    --accent-soft: #3a2b2c;
+    --mint: #1f3530;
+    --sky: #222e45;
+    --sun: #39331f;
+    --lilac: #2c2742;
+    --on-tone: #eceef5;
+    --on-tone-soft: #c3c8d6;
+    --band: #262a42;
+    --band-text: #eceef5;
+    --band-card: rgb(255 255 255 / 0.05);
+    --band-border: rgb(255 255 255 / 0.08);
+    --device: #0d0f16;
+    --screen: #1b1f2d;
+    --screen-row: #262b3c;
+    --tip-bg: #332e22;
+    --tip-text: #eceef5;
+    --glass: rgb(255 255 255 / 0.07);
+    --badge: #2b3144;
+    --border: #2e3446;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 28px rgb(0 0 0 / 0.35);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #161925;
+  --bg-alt: #1b1f2d;
+  --surface: #222737;
+  --text: #eceef5;
+  --text-soft: #a9b0c3;
+  --primary: #aab7f7;
+  --primary-hover: #c0caf9;
+  --on-primary: #161925;
+  --accent: #f5b4a4;
+  --accent-ink: #f5b4a4;
+  --accent-soft: #3a2b2c;
+  --mint: #1f3530;
+  --sky: #222e45;
+  --sun: #39331f;
+  --lilac: #2c2742;
+  --on-tone: #eceef5;
+  --on-tone-soft: #c3c8d6;
+  --band: #262a42;
+  --band-text: #eceef5;
+  --band-card: rgb(255 255 255 / 0.05);
+  --band-border: rgb(255 255 255 / 0.08);
+  --device: #0d0f16;
+  --screen: #1b1f2d;
+  --screen-row: #262b3c;
+  --tip-bg: #332e22;
+  --tip-text: #eceef5;
+  --glass: rgb(255 255 255 / 0.07);
+  --badge: #2b3144;
+  --border: #2e3446;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 28px rgb(0 0 0 / 0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.1875rem; /* 19px: easy to read */
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.5em;
+}
+
+h1 { font-size: clamp(2.5rem, 6vw, 4.25rem); }
+h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
+h3 { font-size: 1.4rem; }
+
+p { margin: 0 0 1em; }
+
+a { color: var(--primary); }
+
+img, svg { max-width: 100%; display: block; }
+
+.container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section { padding: 96px 0; }
+
+.eyebrow {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: 12px;
+}
+
+.section-head {
+  max-width: 640px;
+  margin-bottom: 48px;
+}
+
+.section-head p { color: var(--text-soft); font-size: 1.2rem; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background: var(--primary-hover); }
+
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover { border-color: var(--text); }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (max-width: 720px) {
+  section { padding: 64px 0; }
+  .container { padding: 0 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* ADS */
+  .ad {
+    margin: 48px auto;
+    text-align: center;
+    /* Reserve space so the page doesn't jump when the ad loads (better UX and SEO). */
+    min-height: 280px;
+  }
+  .ad-sidebar { min-height: 600px; margin: 0; }
+  .ad-label {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 8px;
+  }
+  .ad-box {
+    display: grid;
+    place-items: center;
+    height: 250px;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    color: var(--text-soft);
+    font-weight: 700;
+    background: repeating-linear-gradient(45deg, transparent 0 12px, var(--bg-alt) 12px 24px);
+  }
+  .ad-sidebar .ad-box { height: 600px; }
+.ad-section { max-width: 970px; padding: 0 16px; }
+
+/* Side rails: fixed ads beside the 1160px content column, only on very wide screens */
+.side-rail { display: none; }
+@media (min-width: 1560px) {
+  .side-rail {
+    display: block;
+    position: fixed;
+    top: 100px;
+    width: 160px;
+    z-index: 10;
+  }
+  .rail-left { left: calc(50% - 580px - 184px); }
+  .rail-right { right: calc(50% - 580px - 184px); }
+  .side-rail .ad { margin: 0; min-height: 600px; }
+  .side-rail .ad-box { height: 600px; }
+}
+
+body { transition: background-color 0.25s ease, color 0.25s ease; }

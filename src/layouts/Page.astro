@@ -1,0 +1,51 @@
+---
+import Base from "./Base.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  updated?: string;
+}
+
+const { title, description, eyebrow, updated } = Astro.props;
+---
+<Base title={`${title} | Tech for Grownups`} description={description}>
+  <section class="page-head">
+    <div class="container narrow">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> <span>›</span> {title}</nav>
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      {updated && <p class="updated">Last updated: {updated}</p>}
+    </div>
+  </section>
+  <div class="container narrow page-body">
+    <slot />
+  </div>
+</Base>
+
+<style>
+  .narrow { max-width: 780px; }
+  .page-head { padding: 56px 0 40px; background: var(--bg-alt); border-bottom: 1px solid var(--border); }
+  .crumbs { font-size: 1rem; color: var(--text-soft); margin-bottom: 24px; }
+  .crumbs a { color: var(--text-soft); }
+  .crumbs span { margin: 0 6px; }
+  .page-head h1 { font-size: clamp(2.3rem, 5vw, 3.4rem); }
+  .lead { font-size: 1.3rem; color: var(--text-soft); margin: 0; }
+  .updated { margin: 16px 0 0; font-size: 1rem; color: var(--text-soft); }
+
+  .page-body { padding-top: 48px; padding-bottom: 96px; font-size: 1.2rem; line-height: 1.75; }
+  .page-body :global(h2) { font-size: 1.75rem; margin: 2em 0 0.6em; }
+  .page-body :global(h2:first-child) { margin-top: 0; }
+  .page-body :global(h3) { font-size: 1.3rem; margin: 1.5em 0 0.4em; }
+  .page-body :global(ul) { padding-left: 1.4em; margin: 0 0 1.2em; }
+  .page-body :global(li) { margin-bottom: 0.5em; }
+  .page-body :global(li::marker) { color: var(--accent-ink); }
+  .page-body :global(a) { font-weight: 700; text-underline-offset: 3px; }
+  .page-body :global(.note) {
+    background: var(--tip-bg); color: var(--tip-text); border-left: 5px solid var(--accent);
+    border-radius: 0 16px 16px 0; padding: 20px 24px; margin: 1.6em 0;
+  }
+  .page-body :global(.note p) { margin: 0; }
+</style>
