@@ -1,4 +1,5 @@
 ---
+import { url } from "../lib/paths";
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import GuideCard from "../components/GuideCard.astro";
@@ -100,7 +101,7 @@ const faqs = [
       </div>
       <div class="topic-grid">
         {topics.map((t) => (
-          <a href={`/topics/${t.slug}`} class="topic-card">
+          <a href={url(`/topics/${t.slug}`)} class="topic-card">
             <span class="topic-icon" style={`background:${t.color}`}>
               <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[t.icon]} />
             </span>
@@ -150,7 +151,7 @@ const faqs = [
           <span class="eyebrow">Most popular</span>
           <h2>Guides people love this week</h2>
         </div>
-        <a href="/#topics" class="btn btn-ghost">Browse all topics</a>
+        <a href={url("/#topics")} class="btn btn-ghost">Browse all topics</a>
       </div>
       <div class="guide-grid">
         {guides.map((g) => <GuideCard guide={g} />)}
@@ -170,7 +171,7 @@ const faqs = [
           Scammers are clever, but they follow the same playbook. If a message or call does any of these,
           stop, hang up and check with someone you trust.
         </p>
-        <a href="/guides/signs-text-message-is-scam" class="btn btn-primary">Read the Full Scam Guide</a>
+        <a href={url("/guides/signs-text-message-is-scam")} class="btn btn-primary">Read the Full Scam Guide</a>
       </div>
       <ol class="flags">
         {redFlags.map((f, i) => (

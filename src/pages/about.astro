@@ -1,4 +1,5 @@
 ---
+import { url } from "../lib/paths";
 import Page from "../layouts/Page.astro";
 import { topics } from "../data/topics";
 ---
@@ -30,24 +31,24 @@ import { topics } from "../data/topics";
   <h2>What we cover</h2>
   <p>We write guides for the devices and apps people use every day:</p>
   <ul>
-    {topics.map((t) => <li><a href={`/topics/${t.slug}`}>{t.name}</a>: {t.desc}</li>)}
+    {topics.map((t) => <li><a href={url(`/topics/${t.slug}`)}>{t.name}</a>: {t.desc}</li>)}
   </ul>
 
   <h2>How we keep guides accurate</h2>
   <p>
     We follow each guide step by step on real devices before publishing. Because phones and computers change with
     every update, we review our guides regularly and show the date each one was last updated. If you spot something
-    that has changed, please <a href="/contact">let us know</a>. We truly appreciate it.
+    that has changed, please <a href={url("/contact")}>let us know</a>. We truly appreciate it.
   </p>
 
   <h2>How the site is funded</h2>
   <p>
     Tech for Grownups is free for everyone. We cover our costs through advertising and, occasionally, affiliate links
     to products we recommend. This never affects our advice. You can read more in our
-    <a href="/disclaimer">Disclaimer</a> and <a href="/privacy-policy">Privacy Policy</a>.
+    <a href={url("/disclaimer")}>Disclaimer</a> and <a href={url("/privacy-policy")}>Privacy Policy</a>.
   </p>
 
   <div class="note">
-    <p><strong>Have a question or an idea for a guide?</strong> We'd love to hear from you. Visit our <a href="/contact">Contact page</a>.</p>
+    <p><strong>Have a question or an idea for a guide?</strong> We'd love to hear from you. Visit our <a href={url("/contact")}>Contact page</a>.</p>
   </div>
 </Page>

@@ -1,4 +1,5 @@
 ---
+import { url } from "../lib/paths";
 import Page from "../layouts/Page.astro";
 import { SITE } from "../config/site";
 ---
@@ -62,7 +63,7 @@ import { SITE } from "../config/site";
   <ul>
     <li><strong>Hosting:</strong> the Site is hosted by a third-party provider, which may process technical data (such as IP addresses) to deliver pages securely.</li>
     <li><strong>Fonts:</strong> we use Google Fonts, which may receive your IP address when loading fonts.</li>
-    <li><strong>Affiliate links:</strong> some links may be affiliate links. If you click one, the retailer may use cookies to track the referral. See our <a href="/disclaimer">Disclaimer</a>.</li>
+    <li><strong>Affiliate links:</strong> some links may be affiliate links. If you click one, the retailer may use cookies to track the referral. See our <a href={url("/disclaimer")}>Disclaimer</a>.</li>
   </ul>
 
   <h2>Your rights and choices</h2>

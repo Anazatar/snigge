@@ -1,4 +1,5 @@
 ---
+import { url } from "../../lib/paths";
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import GuideCard from "../../components/GuideCard.astro";
@@ -24,7 +25,7 @@ const otherTopics = topics.filter((t) => t.slug !== topic.slug);
     <div class="container hero-grid">
       <div>
         <nav class="crumbs" aria-label="Breadcrumb">
-          <a href="/">Home</a> <span>›</span> <a href="/#topics">Topics</a> <span>›</span> {topic.name}
+          <a href={url("/")}>Home</a> <span>›</span> <a href={url("/#topics")}>Topics</a> <span>›</span> {topic.name}
         </nav>
         <div class="title-row">
           <span class="icon">
@@ -42,7 +43,7 @@ const otherTopics = topics.filter((t) => t.slug !== topic.slug);
       </div>
 
       {featured && (
-        <a href={`/guides/${featured.id}`} class="start-card">
+        <a href={url(`/guides/${featured.id}`)} class="start-card">
           <span class="start-label">★ Start here</span>
           <h2>{featured.data.title}</h2>
           <p>{featured.data.description}</p>
@@ -136,7 +137,7 @@ const otherTopics = topics.filter((t) => t.slug !== topic.slug);
       </div>
       <div class="chips">
         {otherTopics.map((t) => (
-          <a href={`/topics/${t.slug}`} class="chip" style={`--tone:${t.color}`}>
+          <a href={url(`/topics/${t.slug}`)} class="chip" style={`--tone:${t.color}`}>
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[t.icon]} />
             {t.name}
           </a>
@@ -152,7 +153,7 @@ const otherTopics = topics.filter((t) => t.slug !== topic.slug);
         <h2>Get one {topic.name} tip every week</h2>
         <p>Short, friendly and easy to follow. Free cheat sheets included. Unsubscribe anytime.</p>
       </div>
-      <a href="/#newsletter" class="btn btn-primary">Sign Me Up</a>
+      <a href={url("/#newsletter")} class="btn btn-primary">Sign Me Up</a>
     </div>
   </section>
 </Base>

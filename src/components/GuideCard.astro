@@ -1,4 +1,5 @@
 ---
+import { url } from "../lib/paths";
 import type { CollectionEntry } from "astro:content";
 import { getTopic, topics } from "../data/topics";
 
@@ -10,9 +11,9 @@ const { guide } = Astro.props;
 const topic = getTopic(guide.data.topic);
 const tone = topics.findIndex((t) => t.slug === topic.slug) % 4;
 ---
-<a href={`/guides/${guide.id}`} class="guide-card">
+<a href={url(`/guides/${guide.id}`)} class="guide-card">
   <div class={`guide-thumb t${tone}`}>
-    <img src={`/covers/${guide.id}.png`} alt="" width="1200" height="630" loading="lazy" decoding="async" />
+    <img src={url(`/covers/${guide.id}.png`)} alt="" width="1200" height="630" loading="lazy" decoding="async" />
   </div>
   <div class="guide-body">
     <h3>{guide.data.title}</h3>

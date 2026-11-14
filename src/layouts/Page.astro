@@ -1,4 +1,5 @@
 ---
+import { url } from "../lib/paths";
 import Base from "./Base.astro";
 
 interface Props {
@@ -13,7 +14,7 @@ const { title, description, eyebrow, updated } = Astro.props;
 <Base title={`${title} | Tech for Grownups`} description={description}>
   <section class="page-head">
     <div class="container narrow">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> <span>›</span> {title}</nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href={url("/")}>Home</a> <span>›</span> {title}</nav>
       {eyebrow && <span class="eyebrow">{eyebrow}</span>}
       <h1>{title}</h1>
       <p class="lead">{description}</p>
